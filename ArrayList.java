@@ -2,6 +2,8 @@ public class ArrayList<E> extends AbstractList<E>
         implements List<E>, RandomAccess, Cloneable, java.io.Serializable
 {
 // 1. 继承结构 AbstractList, List, AbstractCollection,
+// 2. API: add, remove,
+// 3. 遍历
 // 辅助函数 Arrays.copyOf()
 // elementData = Arrays.copyOf(elementData, size, Object[].class);
 // elementData = Arrays.copyOf(elementData, size);
