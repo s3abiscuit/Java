@@ -9,6 +9,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     // 构造方法
     // 遍历 EntrySet, EntrySetIterator, KeySet, KeySetIterator, Values, ValueIterator
     // 增删改查 putVal(), removeNode(), getNode(), replace()也是getNode
+    // 辅助方法 resize(), hash(), tableForSize()
     
     // 位操作, clone, TreeNode
 
