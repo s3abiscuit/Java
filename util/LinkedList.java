@@ -125,6 +125,9 @@ public class LinkedList<E>
 
     /**
      * Links e as first element.
+     * 两种情况
+     * 1. 原始链表为空 first == last == null
+     * 2. 原始链表不为空
      */
     private void linkFirst(E e) {
         final Node<E> f = first;
@@ -140,6 +143,9 @@ public class LinkedList<E>
 
     /**
      * Links e as last element.
+     * 两种情况
+     * 1. 原始链表为空 first == last == null
+     * 2. 原始链表不为空
      */
     void linkLast(E e) {
         final Node<E> l = last;
@@ -155,6 +161,9 @@ public class LinkedList<E>
 
     /**
      * Inserts element e before non-null Node succ.
+     * 两种情况
+     * 1. succ是第一个元素
+     * 2. 其他
      */
     void linkBefore(E e, Node<E> succ) {
         // assert succ != null;
@@ -413,12 +422,12 @@ public class LinkedList<E>
         int numNew = a.length;
         if (numNew == 0)
             return false;
-
+        // 插入节点的时候需要明确之前和之后的节点
         Node<E> pred, succ;
-        if (index == size) {
+        if (index == size) { //尾部插入
             succ = null;
             pred = last;
-        } else {
+        } else { //其他位置插入
             succ = node(index);
             pred = succ.prev;
         }
