@@ -1,4 +1,4 @@
-package chapter02.section02.thread_2_2_12.project_1_deadLockTest;
+package deadlock;
 
 public class Run {
 	public static void main(String[] args) {

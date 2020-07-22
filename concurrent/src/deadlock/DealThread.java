@@ -1,4 +1,4 @@
-package chapter02.section02.thread_2_2_12.project_1_deadLockTest;
+package deadlock;
 
 public class DealThread implements Runnable {
 
@@ -22,7 +22,7 @@ public class DealThread implements Runnable {
 					e.printStackTrace();
 				}
 				synchronized (lock2) {
-					System.out.println("按lock1->lock2代码顺序执行了);
+					System.out.println("按lock1->lock2代码顺序执行了");
 				}
 			}
 		}
@@ -36,7 +36,7 @@ public class DealThread implements Runnable {
 					e.printStackTrace();
 				}
 				synchronized (lock1) {
-					System.out.println("按lock2->lock1代码顺序执行了);
+					System.out.println("按lock2->lock1代码顺序执行了");
 				}
 			}
 		}
