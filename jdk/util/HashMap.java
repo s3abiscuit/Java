@@ -880,6 +880,9 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * @param matchValue if true only remove if value is equal
      * @param movable if false do not move other nodes while removing
      * @return the node, or null if none
+     * 
+     * 第一步: 找到节点(三种情况, slot, 红黑树, 链表节点)
+     * 第二步: 删除节点
      */
     final Node<K,V> removeNode(int hash, Object key, Object value,
                                boolean matchValue, boolean movable) {
@@ -887,13 +890,14 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         if ((tab = table) != null && (n = tab.length) > 0 &&
             (p = tab[index = (n - 1) & hash]) != null) {
             Node<K,V> node = null, e; K k; V v;
+            // 在slot的情况
             if (p.hash == hash &&
                 ((k = p.key) == key || (key != null && key.equals(k))))
                 node = p;
             else if ((e = p.next) != null) {
-                if (p instanceof TreeNode)
+                if (p instanceof TreeNode)  // 在slot后红黑树的情况
                     node = ((TreeNode<K,V>)p).getTreeNode(hash, key);
-                else {
+                else {  // 在slot后链表的情况
                     do {
                         if (e.hash == hash &&
                             ((k = e.key) == key ||
@@ -1451,6 +1455,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             throw new InvalidObjectException("Illegal load factor: " +
                                              loadFactor);
         s.readInt();                // Read and ignore number of buckets
+        // 1 读出map的size
         int mappings = s.readInt(); // Read number of mappings (size)
         if (mappings < 0)
             throw new InvalidObjectException("Illegal mappings count: " +
@@ -1458,6 +1463,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         else if (mappings > 0) { // (if zero, use defaults)
             // Size the table using given load factor only if within
             // range of 0.25...4.0
+            // 2 根据size设置新map的loaderFactor, capacity, threshold等值
             float lf = Math.min(Math.max(0.25f, loadFactor), 4.0f);
             float fc = (float)mappings / lf + 1.0f;
             int cap = ((fc < DEFAULT_INITIAL_CAPACITY) ?
@@ -1473,6 +1479,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             table = tab;
 
             // Read the keys and values, and put the mappings in the HashMap
+            // 3 将steam中的每个对象一个一个的存入新map中
             for (int i = 0; i < mappings; i++) {
                 @SuppressWarnings("unchecked")
                     K key = (K) s.readObject();
@@ -1485,7 +1492,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 
     /* ------------------------------------------------------------ */
     // iterators
-
+    // 一个基类, EntryIterator KeyIterator ValueIterator都继承了它
     abstract class HashIterator {
         Node<K,V> next;        // next entry to return
         Node<K,V> current;     // current entry
@@ -1497,6 +1504,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             Node<K,V>[] t = table;
             current = next = null;
             index = 0;
+            // 实例化的时候用next直接指向table中第一个非空的slot
             if (t != null && size > 0) { // advance to first entry
                 do {} while (index < t.length && (next = t[index++]) == null);
             }
