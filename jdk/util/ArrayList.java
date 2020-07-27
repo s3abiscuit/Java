@@ -183,6 +183,9 @@ public class ArrayList<E> extends AbstractList<E>
             // defend against c.toArray (incorrectly) not returning Object[]
             // (see e.g. https://bugs.openjdk.java.net/browse/JDK-6260652)
             if (elementData.getClass() != Object[].class)
+                // a = Arrays.copyOf(b, size,  Object[].class)将数组b复制到a中
+                // 新数组a的长度可以更长,
+                // 新数组a可以和旧数组是同一个数组
                 elementData = Arrays.copyOf(elementData, size, Object[].class);
         } else {
             // replace with empty array.
@@ -226,6 +229,10 @@ public class ArrayList<E> extends AbstractList<E>
      *
      * @param minCapacity the desired minimum capacity
      * @throws OutOfMemoryError if minCapacity is less than zero
+     * 
+     * 一般扩容为原长度的1.5倍
+     * 有些情况比如调用了addAll(Collection<? extends E> c), 这个时候1.5倍的长度也不够
+     * 这个时候就需要扩容为minCapacity
      */
     private Object[] grow(int minCapacity) {
         int oldCapacity = elementData.length;
@@ -233,6 +240,7 @@ public class ArrayList<E> extends AbstractList<E>
             int newCapacity = ArraysSupport.newLength(oldCapacity,
                     minCapacity - oldCapacity, /* minimum growth */
                     oldCapacity >> 1           /* preferred growth */);
+            // 一般数组扩容为原来的1.5倍
             return elementData = Arrays.copyOf(elementData, newCapacity);
         } else {
             return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];
@@ -285,6 +293,7 @@ public class ArrayList<E> extends AbstractList<E>
         return indexOfRange(o, 0, size);
     }
 
+    // == 和 equals的区别
     int indexOfRange(Object o, int start, int end) {
         Object[] es = elementData;
         if (o == null) {
@@ -397,6 +406,7 @@ public class ArrayList<E> extends AbstractList<E>
         if (a.length < size)
             // Make a new array of a's runtime type, but my contents:
             return (T[]) Arrays.copyOf(elementData, size, a.getClass());
+        // 将数组elementData的内容复制到数组a中, 复制的长度为size
         System.arraycopy(elementData, 0, a, 0, size);
         if (a.length > size)
             a[size] = null;
@@ -450,6 +460,7 @@ public class ArrayList<E> extends AbstractList<E>
      */
     private void add(E e, Object[] elementData, int s) {
         if (s == elementData.length)
+            // 扩容, 一般扩容为原来长度的1.5倍
             elementData = grow();
         elementData[s] = e;
         size = s + 1;
@@ -575,6 +586,8 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * {@inheritDoc}
+     * 
+     * // 计算时用到了每个元素
      */
     public int hashCode() {
         int expectedModCount = modCount;
@@ -613,6 +626,8 @@ public class ArrayList<E> extends AbstractList<E>
         final Object[] es = elementData;
         final int size = this.size;
         int i = 0;
+        // found在这里是一个label
+        // found的{}里的break可以超越for直接跳出到这个标记
         found: {
             if (o == null) {
                 for (; i < size; i++)
@@ -974,6 +989,7 @@ public class ArrayList<E> extends AbstractList<E>
             return (E) elementData[lastRet = i];
         }
 
+        // remover方法调用之前要先调用next方法 不然会出异常
         public void remove() {
             if (lastRet < 0)
                 throw new IllegalStateException();
