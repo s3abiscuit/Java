@@ -755,9 +755,14 @@ public class ArrayList<E> extends AbstractList<E>
         shiftTailOverGap(elementData, fromIndex, toIndex);
     }
 
-    /** Erases the gap from lo to hi, by sliding down following elements. */
+    /** Erases the gap from lo to hi, by sliding down following elements. 
+     * ----------------lo----------------hi---s
+     * ----------------hi---s------------------
+     * s 后面的值全部写为null
+    */
     private void shiftTailOverGap(Object[] es, int lo, int hi) {
         System.arraycopy(es, hi, es, lo, size - hi);
+        // size -= hi - lo 表示 size=(size-(hi-lo))
         for (int to = size, i = (size -= hi - lo); i < to; i++)
             es[i] = null;
     }
