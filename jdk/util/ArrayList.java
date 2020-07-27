@@ -825,6 +825,7 @@ public class ArrayList<E> extends AbstractList<E>
         return batchRemove(c, true, 0, size);
     }
 
+    // 批量删除, complement为true时, 删除c以外的所有元素
     boolean batchRemove(Collection<?> c, boolean complement,
                         final int from, final int end) {
         Objects.requireNonNull(c);
