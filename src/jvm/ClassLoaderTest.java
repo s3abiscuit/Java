@@ -40,6 +40,9 @@ class MyClassLoader extends ClassLoader {
     }
 
     private File getClassFile(String name) {
+        // Person.java存在于 D:/dev/javaworkspace 目录下
+        // 编译命令是 javac -d  D:/dev/javaworkspace Person.java
+        // 这样在 javaworkspace/hello 目录就可以编译出 Person.class
         File file = new File("D:\\dev\\javaworkspace\\hello\\Person.class");
         return file;
     }
@@ -65,8 +68,8 @@ class MyClassLoader extends ClassLoader {
 
         return baos.toByteArray();
     }
-} 
+}
 /*
 I am a person, my name is null
 jvm.MyClassLoader@1d251891
- */
+*/
