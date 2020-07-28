@@ -182,6 +182,8 @@ public class ArrayList<E> extends AbstractList<E>
         if ((size = elementData.length) != 0) {
             // defend against c.toArray (incorrectly) not returning Object[]
             // (see e.g. https://bugs.openjdk.java.net/browse/JDK-6260652)
+            // List c = Arrays.asList(String[] args);
+            // c.toArray() 返回的类型是String[] 而不是Object[]
             if (elementData.getClass() != Object[].class)
                 // a = Arrays.copyOf(b, size,  Object[].class)将数组b复制到a中
                 // 新数组a的长度可以更长,
