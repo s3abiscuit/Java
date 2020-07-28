@@ -30,10 +30,10 @@ public class ArrayListTest {
         String[] src = {"aaa", "bbb", "ccc", "ddd"};
         List<String> list = new ArrayList<>(Arrays.asList(src));
         list.add("eee");
-        Object[] srtArray = list.toArray();
 
         // list转数组
         // String[] srtArray1 = (String[])list.toArray();  // does not work
+        Object[] srtArray = list.toArray();
         for(Object str : srtArray) System.out.println(str);
         String[] arr = list.toArray(new String[0]);  // preferred way
         for(String str : arr) System.out.println(str);
@@ -94,8 +94,7 @@ public class ArrayListTest {
         long startTime;
         long endTime;
         startTime = System.currentTimeMillis();
-        for (Integer itg : list)
-            ;
+        for (Integer itg : list) ;
         endTime = System.currentTimeMillis();
         long interval = endTime - startTime;
         System.out.println("iteratorThroughFor2：" + interval + " ms");
