@@ -31,10 +31,16 @@ public class ArrayListTest {
         List<String> list = new ArrayList<>(Arrays.asList(src));
         list.add("eee");
 
+        // toArray()方法返回的是Object[] 类型
+        Object[] srtArray = list.toArray();
+
         // list转数组
         // String[] srtArray1 = (String[])list.toArray();  // does not work
-        Object[] srtArray = list.toArray();
         for(Object str : srtArray) System.out.println(str);
+
+        // toArray(String[] args)由两种情况
+        // 1. args的长度小于list的元素的size, 这个时候返回一个新创建的数组
+        // 2. args的长度不小于list的元素的size, 这个时候把list中的元素复制到args数组中
         String[] arr = list.toArray(new String[0]);  // preferred way
         for(String str : arr) System.out.println(str);
     }
@@ -94,7 +100,8 @@ public class ArrayListTest {
         long startTime;
         long endTime;
         startTime = System.currentTimeMillis();
-        for (Integer itg : list) ;
+        for (Integer itg : list)
+            ;
         endTime = System.currentTimeMillis();
         long interval = endTime - startTime;
         System.out.println("iteratorThroughFor2：" + interval + " ms");
@@ -106,3 +113,5 @@ iteratorThroughListIterator：94 ms
 iteratorThroughIterator：102 ms
 iteratorThroughFor2：266 ms
  */
+
+
