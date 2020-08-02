@@ -1,6 +1,26 @@
-package deadlock;
+package concurrent.deadlock;
 
-public class DealThread implements Runnable {
+public class DeadLockTest {
+	public static void main(String[] args) {
+		try {
+			DealThread t1 = new DealThread();
+			t1.setFlag("a");
+
+			Thread thread1 = new Thread(t1);
+			thread1.start();
+
+			Thread.sleep(100);
+
+			t1.setFlag("b");
+			Thread thread2 = new Thread(t1);
+			thread2.start();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+class DealThread implements Runnable {
 
 	public String username;
 	public Object lock1 = new Object();
@@ -18,7 +38,6 @@ public class DealThread implements Runnable {
 					System.out.println("username = " + username);
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				synchronized (lock2) {
@@ -32,7 +51,6 @@ public class DealThread implements Runnable {
 					System.out.println("username = " + username);
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				synchronized (lock1) {
