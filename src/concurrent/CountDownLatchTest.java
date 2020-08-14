@@ -2,6 +2,7 @@ package concurrent;
 
 import java.util.concurrent.CountDownLatch;
 
+// 某一个线程等待其他线程执行完再执行
 public class CountDownLatchTest {
     public static void main(String[] args) {
         final CountDownLatch latch = new CountDownLatch(2);
