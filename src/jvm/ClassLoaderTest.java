@@ -43,7 +43,12 @@ class MyClassLoader extends ClassLoader {
         // Person.java存在于 D:/dev/javaworkspace 目录下
         // 编译命令是 javac -d  D:/dev/javaworkspace Person.java
         // 这样在 javaworkspace/hello 目录就可以编译出 Person.class
-        File file = new File("D:\\dev\\javaworkspace\\hello\\Person.class");
+//        File file = new File("D:\\dev\\javaworkspace\\hello\\Person.class");
+
+        // macOS
+        // 先执行 javac Person.java
+        // 然后运行代码
+        File file = new File("./Person.class");
         return file;
     }
 
