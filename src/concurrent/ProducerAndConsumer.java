@@ -8,8 +8,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerAndConsumer {
     public static void main(String[] args) {
-        // Factory factory = new Factory();  // use wait notify
-        Factory1 factory = new Factory1();   // use lock condition
+         Factory factory = new Factory();  // use wait notify
+//        Factory1 factory = new Factory1();   // use lock condition
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -27,14 +27,15 @@ public class ProducerAndConsumer {
 
 class Factory {
     private List<String> list = new ArrayList<>();
-    public void produce(String str){
-        while(true){
-            synchronized (list){
-                if(list.size()==0){
+
+    public void produce(String str) {
+        while (true) {
+            synchronized (list) {
+                if (list.size() == 0) {
                     System.out.println("producer");
                     list.add(str);
                     list.notify();
-                }else{
+                } else {
                     try {
                         list.wait();
                     } catch (InterruptedException e) {
@@ -45,14 +46,14 @@ class Factory {
         }
     }
 
-    public void consume(){
-        while(true){
-            synchronized (list){
-                if(list.size()!=0){
+    public void consume() {
+        while (true) {
+            synchronized (list) {
+                if (list.size() != 0) {
                     System.out.println("consumer");
                     list.remove(0);
                     list.notify();
-                }else{
+                } else {
                     try {
                         list.wait();
                     } catch (InterruptedException e) {
@@ -68,14 +69,15 @@ class Factory1 {
     private List<String> list = new ArrayList<>();
     Lock lock = new ReentrantLock();
     Condition condition = lock.newCondition();
-    public void produce(String str){
-        while(true){
+
+    public void produce(String str) {
+        while (true) {
             lock.lock();
-            if(list.size()==0){
+            if (list.size() == 0) {
                 System.out.println("producer");
                 list.add(str);
                 condition.signal();
-            }else{
+            } else {
                 try {
                     condition.await();
                 } catch (InterruptedException e) {
@@ -86,14 +88,14 @@ class Factory1 {
         }
     }
 
-    public void consume(){
-        while(true){
+    public void consume() {
+        while (true) {
             lock.lock();
-            if(list.size()!=0){
+            if (list.size() != 0) {
                 System.out.println("consumer");
                 list.remove(0);
                 condition.signal();
-            }else{
+            } else {
                 try {
                     condition.await();
                 } catch (InterruptedException e) {

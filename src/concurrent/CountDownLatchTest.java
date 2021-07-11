@@ -3,11 +3,12 @@ package concurrent;
 import java.util.concurrent.CountDownLatch;
 
 // 某一个线程等待其他线程执行完再执行
+// 例子中有3个线程
 public class CountDownLatchTest {
     public static void main(String[] args) {
         final CountDownLatch latch = new CountDownLatch(2);
 
-        new Thread(){
+        new Thread("one"){
             public void run() {
                 try {
                     System.out.println("子线程"+Thread.currentThread().getName()+"正在执行");
@@ -20,7 +21,7 @@ public class CountDownLatchTest {
             };
         }.start();
 
-        new Thread(){
+        new Thread("two"){
             public void run() {
                 try {
                     System.out.println("子线程"+Thread.currentThread().getName()+"正在执行");
