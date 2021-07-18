@@ -13,29 +13,31 @@ public class VolatileTest {
             e.printStackTrace();
         }
     }
-}
 
-class RunThread extends Thread {
+    private static class RunThread extends Thread {
 
-    // 使用volatile关键字确保一个线程做了修改另外一个线程立即可见
-    // 如果没有volatile关键字RunThread会一直循环下去
-    volatile private boolean isRunning = true;
+        // 使用volatile关键字确保一个线程做了修改另外一个线程立即可见
+        // 如果没有volatile关键字RunThread会一直循环下去
+        volatile private boolean isRunning = true;
 
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public void setRunning(boolean isRunning) {
-        this.isRunning = isRunning;
-    }
-
-    @Override
-    public void run() {
-        System.out.println("进入run了");
-        while (isRunning) {
-            System.out.println("working");
+        public boolean isRunning() {
+            return isRunning;
         }
-        System.out.println("线程被停止了！");
+
+        public void setRunning(boolean isRunning) {
+            this.isRunning = isRunning;
+        }
+
+        @Override
+        public void run() {
+            System.out.println("进入run了");
+            while (isRunning) {
+                System.out.println("working");
+            }
+            System.out.println("线程被停止了！");
+        }
+
     }
 
 }
+

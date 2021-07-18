@@ -23,86 +23,88 @@ public class ProducerAndConsumer {
             }
         }).start();
     }
-}
 
-class Factory {
-    private List<String> list = new ArrayList<>();
+    private static class Factory {
+        private List<String> list = new ArrayList<>();
 
-    public void produce(String str) {
-        while (true) {
-            synchronized (list) {
+        public void produce(String str) {
+            while (true) {
+                synchronized (list) {
+                    if (list.size() == 0) {
+                        System.out.println("producer");
+                        list.add(str);
+                        list.notify();
+                    } else {
+                        try {
+                            list.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void consume() {
+            while (true) {
+                synchronized (list) {
+                    if (list.size() != 0) {
+                        System.out.println("consumer");
+                        list.remove(0);
+                        list.notify();
+                    } else {
+                        try {
+                            list.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static class Factory1 {
+        private List<String> list = new ArrayList<>();
+        Lock lock = new ReentrantLock();
+        Condition condition = lock.newCondition();
+
+        public void produce(String str) {
+            while (true) {
+                lock.lock();
                 if (list.size() == 0) {
                     System.out.println("producer");
                     list.add(str);
-                    list.notify();
+                    condition.signal();
                 } else {
                     try {
-                        list.wait();
+                        condition.await();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                lock.unlock();
             }
         }
-    }
 
-    public void consume() {
-        while (true) {
-            synchronized (list) {
+        public void consume() {
+            while (true) {
+                lock.lock();
                 if (list.size() != 0) {
                     System.out.println("consumer");
                     list.remove(0);
-                    list.notify();
+                    condition.signal();
                 } else {
                     try {
-                        list.wait();
+                        condition.await();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                lock.unlock();
             }
         }
     }
 }
 
-class Factory1 {
-    private List<String> list = new ArrayList<>();
-    Lock lock = new ReentrantLock();
-    Condition condition = lock.newCondition();
 
-    public void produce(String str) {
-        while (true) {
-            lock.lock();
-            if (list.size() == 0) {
-                System.out.println("producer");
-                list.add(str);
-                condition.signal();
-            } else {
-                try {
-                    condition.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            lock.unlock();
-        }
-    }
-
-    public void consume() {
-        while (true) {
-            lock.lock();
-            if (list.size() != 0) {
-                System.out.println("consumer");
-                list.remove(0);
-                condition.signal();
-            } else {
-                try {
-                    condition.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            lock.unlock();
-        }
-    }
-}
