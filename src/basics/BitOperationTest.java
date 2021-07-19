@@ -17,7 +17,8 @@ public class BitOperationTest {
 
     int hammingDistance(int x, int y) {
         // 异或操作, 相反为 1
-        int z = x ^ y;  // 求出 z 中 1 的个数
+        int z = x ^ y;  
+        // 求出 z 中 1 的个数
         int sum = 0;
         while (z > 0) {
             sum += z & 1;
