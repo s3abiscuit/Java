@@ -20,8 +20,9 @@ public class BitOperationTest {
         int z = x ^ y;  
         // 求出 z 中 1 的个数
         int sum = 0;
-        while (z > 0) {
+        while (z != 0) {
             sum += z & 1;
+            // z = z / 2
             z = z >> 1;
         }
         return sum;
