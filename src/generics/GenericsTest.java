@@ -8,7 +8,6 @@ public class GenericsTest {
         testGenericsClass();
         testExtends();
         testSuper();
-
         testExtendsAndSuper();
     }
 
