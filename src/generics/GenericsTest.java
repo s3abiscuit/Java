@@ -1,12 +1,43 @@
 package generics;
 
+import java.util.*;
+
 public class GenericsTest {
     public static void main(String[] args) {
         testObjectArray();
         testGenericsClass();
         testExtends();
         testSuper();
+
+        testExtendsAndSuper();
     }
+
+    private static void testExtendsAndSuper() {
+        List<Integer> srcList = new ArrayList<>(Arrays.asList(1, 2, 3));
+        List<Integer> desList = new ArrayList<>(Arrays.asList(4, 5, 6));
+        Collections.copy(desList, srcList);
+        System.out.println(srcList);
+        System.out.println(desList);
+    }
+    
+    /*public static <T> void copy(List<? super T> dest, List<? extends T> src) {
+        int srcSize = src.size();
+        if (srcSize > dest.size())
+            throw new IndexOutOfBoundsException("Source does not fit in dest");
+
+        if (srcSize < COPY_THRESHOLD ||
+                (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+            for (int i=0; i<srcSize; i++)
+                dest.set(i, src.get(i));
+        } else {
+            ListIterator<? super T> di=dest.listIterator();
+            ListIterator<? extends T> si=src.listIterator();
+            for (int i=0; i<srcSize; i++) {
+                di.next();
+                di.set(si.next());
+            }
+        }
+    }*/
 
     private static void testObjectArray() {
         Object[] arr = new Object[]{1, "hello", 3.14f};
@@ -21,7 +52,6 @@ public class GenericsTest {
         Pair<String> p = new Pair<>("hello", "world");
         Pair<Integer> p1 = new Pair<>(111, 222);
         System.out.println(p);
-//        p.setFirst(1); compile error
         p.setFirst("good");
         p.setLast("morning");
         System.out.println(p);
@@ -39,10 +69,6 @@ public class GenericsTest {
     static int add(Pair<? extends Number> p) {
         Number first = p.getFirst();
         Number last = p.getLast();
-        // compile error
-        // reason: 可以传入 float
-//        p.setFirst(new Integer(first.intValue() + 100));
-//        p.setLast(new Integer(last.intValue() + 100));
         return first.intValue() + last.intValue();
     }
 
@@ -71,10 +97,7 @@ class Pair<T> {
         this.first = first;
         this.last = last;
     }
-//    public Pair() {
-//        this.first = new T();
-//        this.last = new T();
-//    }
+
     public T getFirst() {
         return first;
     }
