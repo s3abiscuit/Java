@@ -8,7 +8,7 @@ public class SingletonTest {
 
         testSingletonWithSync(); // 加同步避免生成多个对象
 
-        testSingletonWithoutSyncAndEfficiency();
+        testSingletonWithSyncAndEfficiency(); // 只在第一次创建的时候才加同步
     }
 
     private static void testSingletonWithSync() {
@@ -31,7 +31,7 @@ public class SingletonTest {
         for (int i = 0; i < 3; i++) new Thread(() -> System.out.println(Singleton1.getInstance())).start();
     }
 
-    private static void testSingletonWithoutSyncAndEfficiency() {
+    private static void testSingletonWithSyncAndEfficiency() {
         try {
             Thread.sleep(1000);
             System.out.println("-----------------------------------------------");
