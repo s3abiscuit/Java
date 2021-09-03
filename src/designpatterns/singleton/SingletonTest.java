@@ -2,23 +2,23 @@ package designpatterns.singleton;
 
 public class SingletonTest {
     public static void main(String[] args) {
-        testSingleton(); // 普通的 singleton
+        // 普通的 singleton
+        testSingleton();
+        // 生成多个对象的情况
+        testSingletonWithoutSync();
+        // 加同步避免生成多个对象
+        // 但是多个线程同时获取的时候会造成阻塞
+        testSingletonWithSync();
 
-        testSingletonWithoutSync(); // 可能会生成多个对象的情况
-
-        testSingletonWithSync(); // 加同步避免生成多个对象
-
-        testSingletonWithSyncAndEfficiency(); // 只在第一次创建的时候才加同步
+        testSingletonWithoutSyncAndEfficiency();
     }
 
-    private static void testSingletonWithSync() {
-        try {
-            Thread.sleep(1000);
-            System.out.println("-----------------------------------------------");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        for (int i = 0; i < 3; i++) new Thread(() -> System.out.println(Singleton2.getInstance())).start();
+    private static void testSingleton() {
+        Singleton1 s1 = Singleton1.getInstance("hello");
+        Singleton1 s2 = Singleton1.getInstance("hello");
+        System.out.println(s1.getName());
+        System.out.println(s1);
+        System.out.println(s2);
     }
 
     private static void testSingletonWithoutSync() {
@@ -28,10 +28,10 @@ public class SingletonTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < 3; i++) new Thread(() -> System.out.println(Singleton1.getInstance())).start();
+        for (int i = 0; i < 3; i++) new Thread(() -> System.out.println(Singleton2.getInstance())).start();
     }
 
-    private static void testSingletonWithSyncAndEfficiency() {
+    private static void testSingletonWithSync() {
         try {
             Thread.sleep(1000);
             System.out.println("-----------------------------------------------");
@@ -41,49 +41,32 @@ public class SingletonTest {
         for (int i = 0; i < 3; i++) new Thread(() -> System.out.println(Singleton3.getInstance())).start();
     }
 
-    private static void testSingleton() {
-        Singleton s1 = Singleton.getInstance("hello");
-        Singleton s2 = Singleton.getInstance("hello");
-        System.out.println(s1.getName());
-        System.out.println(s1);
-        System.out.println(s2);
-    }
-}
-
-class Singleton {
-    private static Singleton instance;
-    private final String name;
-
-    private Singleton(String str) {
-        this.name = str;
-    }
-
-    public static Singleton getInstance(String para) {
-        if (instance == null) instance = new Singleton(para);
-        return instance;
-    }
-
-    public String getName() {
-        return name;
+    private static void testSingletonWithoutSyncAndEfficiency() {
+        try {
+            Thread.sleep(1000);
+            System.out.println("-----------------------------------------------");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < 3; i++) new Thread(() -> System.out.println(Singleton4.getInstance())).start();
     }
 }
 
 class Singleton1 {
     private static Singleton1 instance;
+    private final String name;
 
-    private Singleton1() {
+    private Singleton1(String str) {
+        this.name = str;
     }
 
-    public static Singleton1 getInstance() {
-        if (instance == null) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            instance = new Singleton1();
-        }
+    public static Singleton1 getInstance(String para) {
+        if (instance == null) instance = new Singleton1(para);
         return instance;
+    }
+
+    public String getName() {
+        return name;
     }
 }
 
@@ -93,7 +76,7 @@ class Singleton2 {
     private Singleton2() {
     }
 
-    public static synchronized Singleton2 getInstance() {
+    public static Singleton2 getInstance() {
         if (instance == null) {
             try {
                 Thread.sleep(1);
@@ -107,15 +90,27 @@ class Singleton2 {
 }
 
 class Singleton3 {
-    private volatile static Singleton3 instance;
+    private static Singleton3 instance;
 
     private Singleton3() {
     }
 
-    public static Singleton3 getInstance() {
+    public static synchronized Singleton3 getInstance() {
+        if (instance == null) instance = new Singleton3();
+        return instance;
+    }
+}
+
+class Singleton4 {
+    private volatile static Singleton4 instance;
+
+    private Singleton4() {
+    }
+
+    public static Singleton4 getInstance() {
         if (instance == null) {
-            synchronized (Singleton3.class) {
-                if (instance == null) instance = new Singleton3();
+            synchronized (Singleton4.class) {
+                if (instance == null) instance = new Singleton4();
             }
         }
         return instance;
