@@ -14,21 +14,24 @@ public class ArrayListTest {
 
 
     public static void main(String[] args) {
+        testConstructor();
+        testResize();
+
         testToString();
         testListToArray();
         testTraverse();
-
-        testConstructor();
-        testResize();
     }
 
     private static void testConstructor() {
+        System.out.println("-------------------构造方法----------------------");
         constructorWithoutParam();
         constructorWithInitialCapacity();
         constructorWithCollection();
     }
 
     private static void testResize() {
+        System.out.println("-------------------resize----------------------");
+
         // 第一种扩容方式 *1.5
         ArrayList<String> list1 = new ArrayList<>(listWithSize9);
         System.out.println("扩容前大小" + getArrayListCapacity(list1));
@@ -96,6 +99,7 @@ public class ArrayListTest {
     }
 
     private static void testToString() {
+        System.out.println("-------------------toString----------------------");
         List<String> list = new ArrayList<>();
         list.add("aaa");
         list.add("bbb");
@@ -109,6 +113,7 @@ public class ArrayListTest {
     }
 
     private static void testListToArray() {
+        System.out.println("-------------------List to Array----------------------");
         // 数组转List
         String[] src = {"aaa", "bbb", "ccc", "ddd"};
         List<String> list = new ArrayList<>(Arrays.asList(src));
@@ -119,16 +124,18 @@ public class ArrayListTest {
 
         // list转数组
         // String[] srtArray1 = (String[])list.toArray();  // does not work
-        for (Object str : srtArray) System.out.println(str);
+//        for (Object str : srtArray) System.out.println(str);
+        System.out.println(Arrays.toString(srtArray));
 
         // toArray(String[] args)由两种情况
         // 1. args的长度小于list的元素的size, 这个时候返回一个新创建的数组
         // 2. args的长度不小于list的元素的size, 这个时候把list中的元素复制到args数组中
         String[] arr = list.toArray(new String[0]);  // preferred way
-        for (String str : arr) System.out.println(str);
+        System.out.println(Arrays.toString(arr));
     }
 
     private static void testTraverse() {
+        System.out.println("-------------------iterate----------------------");
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 100000000; i++)
             list.add(i);
@@ -190,11 +197,34 @@ public class ArrayListTest {
         System.out.println("iteratorThroughFor2：" + interval + " ms");
     }
 }
-/*
-iteratorThroughRandomAccess：78 ms
-iteratorThroughListIterator：94 ms
-iteratorThroughIterator：102 ms
-iteratorThroughFor2：266 ms
+/* output
+------------------构造方法----------------------
+无参造方法初始化并添加1个元素后 elementData 数组大小为: 10
+无参构造方法初始化并添加9个元素后 elementData 数组大小为: 10
+无参构造方法初始化并添加11个元素后 elementData 数组大小为: 11
+initialCapacity 设置为2的构造方法 elementData 数组大小为: 9
+initialCapacity 设置为11的构造方法 elementData 数组大小为: 11
+传入 collection 大小为9的构造方法 elementData 数组大小为: 9
+传入 collection 大小为11的构造方法 elementData 数组大小为: 11
+-------------------resize----------------------
+扩容前大小9
+1.5倍扩容后的大小13
+扩容前大小9
++n扩容后的大小20
+-------------------toString----------------------
+aaa
+bbb
+ccc
+ddd
+[aaa, bbb, ccc, ddd]
+-------------------List to Array----------------------
+[aaa, bbb, ccc, ddd, eee]
+[aaa, bbb, ccc, ddd, eee]
+-------------------iterate----------------------
+iteratorThroughRandomAccess：70 ms
+iteratorThroughListIterator：102 ms
+iteratorThroughIterator：100 ms
+iteratorThroughFor2：232 ms
  */
 
 
