@@ -1,10 +1,7 @@
 package container;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ArrayListTest {
     private static final ArrayList<String> listWithSize9 = new ArrayList<>(Arrays.asList("1", "2",
@@ -14,12 +11,29 @@ public class ArrayListTest {
 
 
     public static void main(String[] args) {
-        testConstructor();
-        testResize();
+//        testConstructor();
+//        testResize();
+//
+//        testTraverse();
+//        testToString();
+//        testListToArray();
 
-        testToString();
-        testListToArray();
-        testTraverse();
+        testModCount();
+    }
+
+    private static void testModCount() {
+        ArrayList<String> list = new ArrayList<String>();
+        // CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<String>();
+        list.add("a");
+        Iterator<String> iterator = list.iterator();
+        try {
+            while(iterator.hasNext()){
+                String str = iterator.next();
+                list.remove(str);
+            }
+        } catch (ConcurrentModificationException e) {
+            System.out.println("ConcurrentModificationException");
+        }
     }
 
     private static void testConstructor() {
@@ -80,7 +94,7 @@ public class ArrayListTest {
         System.out.println("传入 collection 大小为11的构造方法 elementData 数组大小为: " + getArrayListCapacity(list2));
     }
 
-
+    // https://www.cnblogs.com/hs2018/p/10449970.html
     private static int getArrayListCapacity(ArrayList<?> arrayList) {
         Class<ArrayList> arrayListClass = ArrayList.class;
         try {
@@ -139,9 +153,13 @@ public class ArrayListTest {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 100000000; i++)
             list.add(i);
+        // RandomAccess 最快
         iteratorThroughRandomAccess(list);
+        // iterator 是 RandomAccess 的包装
         iteratorThroughListIterator(list);
         iteratorThroughIterator(list);
+        // For2 又是 iterator 的包装
+        iteratorThroughForEach(list);
         iteratorThroughFor2(list);
     }
 
@@ -196,9 +214,25 @@ public class ArrayListTest {
         long interval = endTime - startTime;
         System.out.println("iteratorThroughFor2：" + interval + " ms");
     }
+
+    private static void iteratorThroughForEach(List<Integer> list) {
+        long startTime;
+        long endTime;
+        startTime = System.currentTimeMillis();
+        list.forEach(item -> {
+        });
+        endTime = System.currentTimeMillis();
+        long interval = endTime - startTime;
+        System.out.println("iteratorThroughForEach：" + interval + " ms");
+    }
 }
 /* output
-------------------构造方法----------------------
+-------------------构造方法----------------------
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by container.ArrayListTest (file:/D:/dev/javaworkspace/JavaDemo-master/out/production/JavaDemo-master/) to field java.util.ArrayList.elementData
+WARNING: Please consider reporting this to the maintainers of container.ArrayListTest
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
 无参造方法初始化并添加1个元素后 elementData 数组大小为: 10
 无参构造方法初始化并添加9个元素后 elementData 数组大小为: 10
 无参构造方法初始化并添加11个元素后 elementData 数组大小为: 11
@@ -211,6 +245,12 @@ initialCapacity 设置为11的构造方法 elementData 数组大小为: 11
 1.5倍扩容后的大小13
 扩容前大小9
 +n扩容后的大小20
+-------------------iterate----------------------
+iteratorThroughRandomAccess：67 ms
+iteratorThroughListIterator：100 ms
+iteratorThroughIterator：97 ms
+iteratorThroughForEach：189 ms
+iteratorThroughFor2：250 ms
 -------------------toString----------------------
 aaa
 bbb
@@ -220,11 +260,6 @@ ddd
 -------------------List to Array----------------------
 [aaa, bbb, ccc, ddd, eee]
 [aaa, bbb, ccc, ddd, eee]
--------------------iterate----------------------
-iteratorThroughRandomAccess：70 ms
-iteratorThroughListIterator：102 ms
-iteratorThroughIterator：100 ms
-iteratorThroughFor2：232 ms
  */
 
 
