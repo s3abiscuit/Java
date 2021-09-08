@@ -1,18 +1,101 @@
 package container;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 public class ArrayListTest {
+    private static final ArrayList<String> listWithSize9 = new ArrayList<>(Arrays.asList("1", "2",
+            "3", "4", "5", "6", "7", "8", "9"));
+    private static final ArrayList<String> listWithSize11 = new ArrayList<>(Arrays.asList("1", "2",
+            "3", "4", "5", "6", "7", "8", "9", "10", "11"));
+
+
     public static void main(String[] args) {
         testToString();
         testListToArray();
         testTraverse();
+
+        testConstructor();
+        testResize();
     }
 
-    private static void testToString(){
+    private static void testConstructor() {
+        constructorWithoutParam();
+        constructorWithInitialCapacity();
+        constructorWithCollection();
+    }
+
+    private static void testResize() {
+        // 第一种扩容方式 *1.5
+        ArrayList<String> list1 = new ArrayList<>(listWithSize9);
+        System.out.println("扩容前大小" + getArrayListCapacity(list1));
+        list1.add("0");
+        System.out.println("1.5倍扩容后的大小" + getArrayListCapacity(list1));
+
+        // 第二种扩容方式 +n
+        ArrayList<String> list2 = new ArrayList<>(listWithSize9);
+        System.out.println("扩容前大小" + getArrayListCapacity(list2));
+        list2.addAll(listWithSize11);
+        System.out.println("+n扩容后的大小" + getArrayListCapacity(list2));
+    }
+
+    private static void constructorWithoutParam() {
+        // 空构造方法初始化并添加一个元素, 结果是 elementData 大小为 10,
+        ArrayList<String> list1 = new ArrayList<>();
+        list1.add("0");
+        System.out.println("无参造方法初始化并添加1个元素后 elementData 数组大小为: " + getArrayListCapacity(list1));
+
+        // 空构造方法并添加 n 个元素, 如果 n <=10 结果是 elementData 大小为 10,
+        ArrayList<String> list2 = new ArrayList<>();
+        list2.addAll(listWithSize9);
+        System.out.println("无参构造方法初始化并添加9个元素后 elementData 数组大小为: " + getArrayListCapacity(list2));
+
+        // 如果 n > 10 elementData 大小为 n
+        ArrayList<String> list3 = new ArrayList<>();
+        list3.addAll(listWithSize11);
+        System.out.println("无参构造方法初始化并添加11个元素后 elementData 数组大小为: " + getArrayListCapacity(list3));
+    }
+
+    private static void constructorWithInitialCapacity() {
+        // initialCapacity的构造方法初始化 elementData 大小为 initialCapacity
+        ArrayList<String> list1 = new ArrayList<>(9);
+        System.out.println("initialCapacity 设置为2的构造方法 elementData 数组大小为: " + getArrayListCapacity(list1));
+
+        ArrayList<String> list2 = new ArrayList<>(11);
+        System.out.println("initialCapacity 设置为11的构造方法 elementData 数组大小为: " + getArrayListCapacity(list2));
+    }
+
+    private static void constructorWithCollection() {
+        // 使用传入 collection 的构造方法 结果是 elementData 大小为 collection 的大小
+        ArrayList<String> list1 = new ArrayList<>(listWithSize9);
+        System.out.println("传入 collection 大小为9的构造方法 elementData 数组大小为: " + getArrayListCapacity(list1));
+
+        ArrayList<String> list2 = new ArrayList<>(listWithSize11);
+        System.out.println("传入 collection 大小为11的构造方法 elementData 数组大小为: " + getArrayListCapacity(list2));
+    }
+
+
+    private static int getArrayListCapacity(ArrayList<?> arrayList) {
+        Class<ArrayList> arrayListClass = ArrayList.class;
+        try {
+            //获取 elementData 字段
+            Field field = arrayListClass.getDeclaredField("elementData");
+            //开始访问权限
+            field.setAccessible(true);
+            //把示例传入get，获取实例字段elementData的值
+            Object[] objects = (Object[]) field.get(arrayList);
+            //返回当前ArrayList实例的容量值
+            return objects.length;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    private static void testToString() {
         List<String> list = new ArrayList<>();
         list.add("aaa");
         list.add("bbb");
@@ -25,7 +108,7 @@ public class ArrayListTest {
         System.out.println(list);
     }
 
-    private static void testListToArray(){
+    private static void testListToArray() {
         // 数组转List
         String[] src = {"aaa", "bbb", "ccc", "ddd"};
         List<String> list = new ArrayList<>(Arrays.asList(src));
@@ -36,13 +119,13 @@ public class ArrayListTest {
 
         // list转数组
         // String[] srtArray1 = (String[])list.toArray();  // does not work
-        for(Object str : srtArray) System.out.println(str);
+        for (Object str : srtArray) System.out.println(str);
 
         // toArray(String[] args)由两种情况
         // 1. args的长度小于list的元素的size, 这个时候返回一个新创建的数组
         // 2. args的长度不小于list的元素的size, 这个时候把list中的元素复制到args数组中
         String[] arr = list.toArray(new String[0]);  // preferred way
-        for(String str : arr) System.out.println(str);
+        for (String str : arr) System.out.println(str);
     }
 
     private static void testTraverse() {
