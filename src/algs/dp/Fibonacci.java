@@ -1,29 +1,34 @@
-package basics;
+package algs.dp;
 
 public class Fibonacci {
     public static void main(String[] args) {
         System.out.println(Integer.MAX_VALUE);
         // 递归
-        System.out.println(fib(10));
+        System.out.println(fibWithRecursion(10));
         // 递归 + memo
-        System.out.println(fib1(47 - 1));
+        System.out.println(fibWithRecursionAndMemo(47 - 1));
         // 迭代
-        System.out.println(fib2(47 - 1));
+        System.out.println(fibWithIteration1(47 - 1));
         // 迭代
-        System.out.println(fib3(47 - 1));
+        System.out.println(fibWithIteration2(47 - 1));
     }
+
     // 动态规划, 自顶向下, 递归
-    public static int fib(int n) {
+    public static int fibWithRecursion(int n) {
         if (n == 1 || n == 2) return 1;
-        return fib(n - 1) + fib(n - 2);
+        return fibWithRecursion(n - 1) + fibWithRecursion(n - 2);
     }
+
     // 动态规划, 自顶向下,
-    public static int fib1(int n) {
+    public static int fibWithRecursionAndMemo(int n) {
         int[] memo = new int[n + 1];
+        memo[0] = 0;
+        memo[1] = memo[2] = 1;
         return helper(memo, n);
     }
-    // 动态规划, 自底向上
-    public static int fib2(int n) {
+
+    // 迭代, 自底向上
+    public static int fibWithIteration1(int n) {
         int[] memo = new int[n + 1];
         memo[1] = 1;
         memo[2] = 1;
@@ -32,8 +37,9 @@ public class Fibonacci {
         }
         return memo[n];
     }
-    // 动态规划, 自底向上, 状态压缩
-    public static int fib3(int n) {
+
+    // 迭代, 自底向上, 状态压缩
+    public static int fibWithIteration2(int n) {
         if (n == 1 || n == 2) return 1;
         int pre = 1, cur = 1;
         for (int i = 3; i <= n; i++) {
@@ -45,7 +51,7 @@ public class Fibonacci {
     }
 
     private static int helper(int[] memo, int n) {
-        if (n == 1 || n == 2) return 1;
+//        if (n == 1 || n == 2) return 1;
         if (memo[n] != 0) return memo[n];
         memo[n] = helper(memo, n - 1) + helper(memo, n - 2);
 //        System.out.println(n + ": " + memo[n]);
