@@ -53,14 +53,15 @@
 package algs.dp;
 
 import java.util.Arrays;
+
 // https://blog.csdn.net/weixin_43314519/article/details/108132528
 public class LC0322CoinChange {
-    private static final int[] arr = {1, 2, 5};
+    private static final int[] arr = {1, 2, 5, 10, 20, 50};
 
     public static void main(String[] args) {
         System.out.println(coinChangeIteration(arr, 9998));
-        // System.out.println(coinChangeRecursion(arr, 100));  超时
-        // System.out.println(coinChange(arr, 9998));   StackOverFlow
+        //System.out.println(coinChangeRecursion(arr, 100));  //超时
+        //System.out.println(coinChangeRecursion2(arr, 17000));   //StackOverFlow
         System.out.println(coinChangeRecursion2(arr, 1000));
 
     }
