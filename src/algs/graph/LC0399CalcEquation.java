@@ -59,7 +59,7 @@ package algs.graph;
 
 import java.util.*;
 
-public class LC399CalcEquation {
+public class LC0399CalcEquation {
     Map<String, List<Node>> map;
 
     public static void main(String[] args) {
