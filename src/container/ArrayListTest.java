@@ -21,6 +21,14 @@ public class ArrayListTest {
         testModCount();
     }
 
+    /*
+    ConcurrentModificationException
+    java.util.ConcurrentModificationException
+	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1013)
+	at java.base/java.util.ArrayList$Itr.next(ArrayList.java:967)
+	at container.ArrayListTest.testModCount(ArrayListTest.java:31)
+	at container.ArrayListTest.main(ArrayListTest.java:21)
+     */
     private static void testModCount() {
         ArrayList<String> list = new ArrayList<String>();
         // CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<String>();
@@ -28,11 +36,12 @@ public class ArrayListTest {
         Iterator<String> iterator = list.iterator();
         try {
             while(iterator.hasNext()){
-                String str = iterator.next();
-                list.remove(str);
+                String str = iterator.next(); // 这里抛出异常, expectedModCount和modCount不一致
+                list.remove(str);  // remove之后 modCount 加一
             }
         } catch (ConcurrentModificationException e) {
             System.out.println("ConcurrentModificationException");
+            e.printStackTrace();
         }
     }
 
