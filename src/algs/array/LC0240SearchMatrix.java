@@ -39,11 +39,11 @@
 // Related Topics 数组 二分查找 分治 矩阵 👍 724 👎 0
 package algs.array;
 
-public class LC240SearchMatrix {
+public class LC0240SearchMatrix {
     private static final int[][] matrix =
-                   {{1,  4,  7,  11, 15},
-                    {2,  5,  8,  12, 19},
-                    {3,  6,  9,  16, 22},
+            {{1, 4, 7, 11, 15},
+                    {2, 5, 8, 12, 19},
+                    {3, 6, 9, 16, 22},
                     {10, 13, 14, 17, 24},
                     {18, 21, 23, 26, 30}};
     private static final int target = 5;
