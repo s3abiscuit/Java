@@ -3,7 +3,8 @@ TLDR;
 - Collection
     - List->ArrayList/Vector/LinkedList/Stack
     - Set->HashSet/LinkedHashSet/TreeSet
-    - Queue->LinkedList/ArrayDeque/PriorityQueue
+    - Queue->PriorityQueue
+    - Deque->LinkedList/ArrayDeque
 - Map->HashMap/LinkedHashMap/TreeMap
 
 ## Collection 接口
@@ -122,6 +123,14 @@ return null
 - boolean offerFirst/Last(E e);
 - E pollFirst/Last();
 - E peekFirst/Last();
+
+**LinkedList**
+
+底层实现方式是 双向链表, 有 head 和 tail 指针
+
+**ArrayDeque**
+
+底层实现方式是循环数组, 有 head 和 tail 指针
 
 ## Map
 
