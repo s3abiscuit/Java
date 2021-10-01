@@ -1,52 +1,36 @@
 package concurrent;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class ThreadTest {
 
     public static final Thread thread = new Thread() {
         @Override
         public void run() {
-            System.out.println("Thread");
+            System.out.println(Thread.currentThread() + "Thread");
         }
     };
     public static final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            System.out.println("Runnable");
+            System.out.println(Thread.currentThread() + "Runnable");
         }
     };
     public static final Callable<String> callable = new Callable<String>() {
         @Override
         public String call() throws Exception {
-            return "Callable";
+            return Thread.currentThread() + "Callable";
         }
     };
 
     public static void main(String[] args) {
 
-//        threadTest();
-//        executorTest();
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        WaitNotifyExample example = new WaitNotifyExample();
-        executorService.execute(example::after);
+        threadTest();
+        executorTest();
 
-        executorService.execute(example::before);
-
-    }
-
-    private static void executorTest() {
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        for (int i = 0; i < 5; i++) {
-            executorService.execute(runnable);
-        }
-        executorService.shutdown();
     }
 
     private static void threadTest() {
-        System.out.println("before");
         thread.start();
         try {
             Thread.sleep(3000);
@@ -54,32 +38,41 @@ public class ThreadTest {
             e.printStackTrace();
         }
         new Thread(runnable).start();
-        System.out.println("after");
 
-//        try {
-//            FutureTask<String> ft = new FutureTask<>(callable);
-//            new Thread(ft).start();
-//            System.out.println(ft.get());
-//        } catch (InterruptedException | ExecutionException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-}
-
-class WaitNotifyExample {
-
-    public synchronized void before() {
-        System.out.println("before");
-        notifyAll();
-    }
-
-    public synchronized void after() {
         try {
-            wait();
-        } catch (InterruptedException e) {
+            FutureTask<String> ft = new FutureTask<>(callable);
+            new Thread(ft).start();
+            System.out.println(ft.get());
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        System.out.println("after");
     }
+
+    // 使用线程池可以复用创建的线程
+    // 例子中执行10个线程 但是只创建了5个
+    private static void executorTest() {
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        for (int i = 0; i < 10; i++) {
+            executorService.execute(runnable);
+        }
+        executorService.shutdown();
+    }
+
 }
+
+/* output
+Thread[Thread-0,5,main]Thread
+Thread[Thread-1,5,main]Runnable
+Thread[Thread-2,5,main]Callable
+Thread[pool-1-thread-1,5,main]Runnable
+Thread[pool-1-thread-2,5,main]Runnable
+Thread[pool-1-thread-3,5,main]Runnable
+Thread[pool-1-thread-3,5,main]Runnable
+Thread[pool-1-thread-4,5,main]Runnable
+Thread[pool-1-thread-2,5,main]Runnable
+Thread[pool-1-thread-4,5,main]Runnable
+Thread[pool-1-thread-1,5,main]Runnable
+Thread[pool-1-thread-3,5,main]Runnable
+Thread[pool-1-thread-5,5,main]Runnable
+ */
+
