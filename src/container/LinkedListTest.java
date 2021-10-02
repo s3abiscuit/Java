@@ -1,47 +1,51 @@
 package container;
 
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 
 public class LinkedListTest {
+    public static void main(String[] args) {
 
-}
+    }
 
-class Solution {
-    public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        Deque<TreeNode> stk = new LinkedList<>();
-        while (root != null || !stk.isEmpty()) {
-            while (root != null) {
-                stk.push(root);
-                root = root.left;
-            }
-            root = stk.pop();
-            res.add(root.val);
-            root = root.right;
+    // LinkedList used as Deque
+    // LC0234 判断链表是否回文
+    public boolean isPalindrome(ListNode head) {
+        if(head.next == null) return true;
+        Deque<ListNode> deque = new LinkedList<>();
+        ListNode cur = head;
+        while(cur != null) {
+            deque.addLast(cur);
+            cur = cur.next;
         }
-        return res;
+        while(!deque.isEmpty()){
+            if (deque.getFirst() == deque.getLast()) {
+                deque.removeFirst();
+                continue;
+            }
+            if (deque.getFirst().val == deque.getLast().val) {
+                deque.removeFirst();
+                deque.removeLast();
+                continue;
+            }
+            return false;
+        }
+        return true;
     }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+
+        ListNode(int x, ListNode next) {
+            val = x;
+            this.next = next;
+        }
+    }
+
 }
 
-
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode() {
-    }
-
-    TreeNode(int val) {
-        this.val = val;
-    }
-
-    TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}

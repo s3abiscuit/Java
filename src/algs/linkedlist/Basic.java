@@ -7,6 +7,9 @@ public class Basic {
     public static void main(String[] args) {
         traverse(createNode());
         remove(createNode(), 3);
+        reverseList(createNode());
+        System.out.println(endOfFirstHalf(createNode()).val);
+        System.out.println(hasCycle(createNode()));
     }
 
     private static void remove(ListNode listNode, int value) {
@@ -64,6 +67,44 @@ public class Basic {
         if (head == null) return;
         traverse4(head.next);
         System.out.println(head.val);
+    }
+
+    private static ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
+
+    private static ListNode endOfFirstHalf(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    private static boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
     }
 
     static class ListNode {
