@@ -66,6 +66,7 @@ public class LC0206ReverseList {
             walker.next = stack.pop();
             walker = walker.next;
         }
+        // 这句不写会有死循环
         walker.next = null;
         return hair.next;
     }
@@ -94,6 +95,7 @@ public class LC0206ReverseList {
         return newHead;
     }
 
+    // 创建了一个新的链表
     public ListNode reverseList4(ListNode head) {
         ListNode ans = null;
         for (ListNode x = head; x != null; x = x.next) {
