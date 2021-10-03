@@ -89,7 +89,7 @@ public class LC0234IsPalindrome {
 
     }
     // 时间复杂度 O(N) 空间复杂度 O(1)
-    public boolean isPalindrome(ListNode head) {
+    public boolean isPalindrome3(ListNode head) {
         if (head == null) {
             return true;
         }
