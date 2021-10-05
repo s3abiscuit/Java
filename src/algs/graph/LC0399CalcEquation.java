@@ -123,17 +123,18 @@ public class LC0399CalcEquation {
         // 没有搜到答案，返回-1
         return -1.0;
     }
-}
 
-// 定义邻接节点类
-class Node {
-    // 邻接节点代表的字符串
-    public String id;
-    // 到达邻接节点所需的倍数
-    public double num;
+    // 定义邻接节点类
+    static class Node {
+        // 邻接节点代表的字符串
+        public String id;
+        // 到达邻接节点所需的倍数
+        public double num;
 
-    public Node(String i, double n) {
-        id = i;
-        num = n;
+        public Node(String i, double n) {
+            id = i;
+            num = n;
+        }
     }
 }
+

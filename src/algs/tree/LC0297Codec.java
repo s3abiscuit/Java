@@ -58,6 +58,71 @@ public class LC0297Codec {
     public static void main(String[] args) {
 
     }
+
+    static class Codec {
+        public String serialize(TreeNode root) {
+            StringBuilder ans = new StringBuilder();
+            // 用队列实现层次遍历
+            Queue<TreeNode> q = new LinkedList<>();
+            q.add(root);
+            while (!q.isEmpty()) {
+                TreeNode node = q.poll();
+                // 如果当前节点为空
+                if (node == null) {
+                    ans.append('n');
+                    ans.append(',');
+                } else {
+                    // 当前节点不为空
+                    ans.append(node.val);
+                    ans.append(',');
+                    q.add(node.left);
+                    q.add(node.right);
+                }
+
+            }
+            ans.delete(ans.length() - 1, ans.length());
+            return ans.toString();
+        }
+
+        private TreeNode charToNode(String ch) {
+            if (ch.equals("n")) return null;
+            else {
+                int val = Integer.parseInt(ch);
+                return new TreeNode(val);
+            }
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            Queue<TreeNode> q = new LinkedList<>();
+            String[] s = data.split(",");
+            int index = 0;
+            TreeNode root = charToNode(s[index]);
+            q.add(root);
+            while (!q.isEmpty()) {
+                TreeNode node = q.poll();
+                if (node != null) {
+                    node.left = charToNode(s[++index]);
+                    node.right = charToNode(s[++index]);
+                    q.add(node.left);
+                    q.add(node.right);
+                }
+            }
+            return root;
+        }
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+
 }
 
 /**
@@ -69,55 +134,4 @@ public class LC0297Codec {
  * TreeNode(int x) { val = x; }
  * }
  */
-class Codec {
-    public String serialize(TreeNode root) {
-        StringBuilder ans = new StringBuilder();
-        // 用队列实现层次遍历
-        Queue<TreeNode> q = new LinkedList<>();
-        q.add(root);
-        while (!q.isEmpty()) {
-            TreeNode node = q.poll();
-            // 如果当前节点为空
-            if (node == null) {
-                ans.append('n');
-                ans.append(',');
-            } else {
-                // 当前节点不为空
-                ans.append(node.val);
-                ans.append(',');
-                q.add(node.left);
-                q.add(node.right);
-            }
 
-        }
-        ans.delete(ans.length() - 1, ans.length());
-        return ans.toString();
-    }
-
-    private TreeNode charToNode(String ch) {
-        if (ch.equals("n")) return null;
-        else {
-            int val = Integer.parseInt(ch);
-            return new TreeNode(val);
-        }
-    }
-
-    // Decodes your encoded data to tree.
-    public TreeNode deserialize(String data) {
-        Queue<TreeNode> q = new LinkedList<>();
-        String[] s = data.split(",");
-        int index = 0;
-        TreeNode root = charToNode(s[index]);
-        q.add(root);
-        while (!q.isEmpty()) {
-            TreeNode node = q.poll();
-            if (node != null) {
-                node.left = charToNode(s[++index]);
-                node.right = charToNode(s[++index]);
-                q.add(node.left);
-                q.add(node.right);
-            }
-        }
-        return root;
-    }
-}

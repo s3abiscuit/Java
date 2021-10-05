@@ -56,52 +56,54 @@ public class LC0208Trie {
         trie.insert("app");
         trie.search("app");     // 返回 True
     }
-}
 
-class Trie {
-    private TrieNode root;
+    static class Trie {
+        private TrieNode root;
 
-    public Trie() {
-        root = new TrieNode();
-    }
-
-    public void insert(String word) {
-        TrieNode node = root;
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
-            int index = ch - 'a';
-            if (node.children[index] == null) {
-                node.children[index] = new TrieNode();
-            }
-            node = node.children[index];
+        public Trie() {
+            root = new TrieNode();
         }
-        node.isEnd = true;
-    }
 
-    public boolean search(String word) {
-        TrieNode node = searchPrefix(word);
-        return node != null && node.isEnd;
-    }
-
-    public boolean startsWith(String prefix) {
-        return searchPrefix(prefix) != null;
-    }
-
-    private TrieNode searchPrefix(String prefix) {
-        TrieNode node = root;
-        for (int i = 0; i < prefix.length(); i++) {
-            char ch = prefix.charAt(i);
-            int index = ch - 'a';
-            if (node.children[index] == null) {
-                return null;
+        public void insert(String word) {
+            TrieNode node = root;
+            for (int i = 0; i < word.length(); i++) {
+                char ch = word.charAt(i);
+                int index = ch - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new TrieNode();
+                }
+                node = node.children[index];
             }
-            node = node.children[index];
+            node.isEnd = true;
         }
-        return node;
+
+        public boolean search(String word) {
+            TrieNode node = searchPrefix(word);
+            return node != null && node.isEnd;
+        }
+
+        public boolean startsWith(String prefix) {
+            return searchPrefix(prefix) != null;
+        }
+
+        private TrieNode searchPrefix(String prefix) {
+            TrieNode node = root;
+            for (int i = 0; i < prefix.length(); i++) {
+                char ch = prefix.charAt(i);
+                int index = ch - 'a';
+                if (node.children[index] == null) {
+                    return null;
+                }
+                node = node.children[index];
+            }
+            return node;
+        }
+    }
+
+    static class TrieNode {
+        boolean isEnd;
+        TrieNode[] children = new TrieNode[26];
     }
 }
 
-class TrieNode {
-    boolean isEnd;
-    TrieNode[] children = new TrieNode[26];
-}
+
