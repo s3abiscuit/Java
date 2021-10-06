@@ -57,7 +57,7 @@ public class LC0048Rotate {
     规律 matrix[i][j] = copy[size - 1 - j][i]
     需要复制一份二维数组
      */
-    public static void rotate(int[][] matrix) {
+    public static void rotate1(int[][] matrix) {
         int size = matrix[0].length;
         int[][] copy = new int[size][size];
         for (int i = 0;i<size;i++) {
@@ -70,5 +70,24 @@ public class LC0048Rotate {
             }
         }
 
+    }
+    // 找出规律 先上下交换 再按对角线交换
+    // https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/xnhhkv/?discussion=55PjY0
+    public void rotate(int[][] matrix) {
+        int length = matrix.length;
+        // 先上下交换
+        for (int i = 0; i < length / 2; i++) {
+            int temp[] = matrix[i];
+            matrix[i] = matrix[length - i - 1];
+            matrix[length - i - 1] = temp;
+        }
+        // 再按照对角线交换
+        for (int i = 0; i < length; ++i) {
+            for (int j = i + 1; j < length; ++j) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
     }
 }

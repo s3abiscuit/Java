@@ -15,6 +15,7 @@ public class BitOperationTest {
         System.out.println(-5 >>> 3);//结果是536870911 高位补了0
     }
 
+    // 两个数的汉明距离
     int hammingDistance(int x, int y) {
         // 异或操作, 相反为 1
         int z = x ^ y;  
@@ -27,4 +28,33 @@ public class BitOperationTest {
         }
         return sum;
     }
+    // 数的1的个数
+    public int hammingWeight1(int n) {
+        int ret = 0;
+        for (int i = 0; i < 32; i++) {
+            if ((n & (1 << i)) != 0) {
+                ret++;
+            }
+        }
+        return ret;
+    }
+
+    public int hammingWeight2(int n) {
+        int ret = 0;
+        while (n != 0) {
+            n &= n - 1;
+            ret++;
+        }
+        return ret;
+    }
+
+    public int hammingWeight3(int n) {
+        int sum = 0;
+        while (n != 0) {
+            sum += n & 1;
+            n = n >>> 1;
+        }
+        return sum;
+    }
+
 }

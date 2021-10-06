@@ -86,22 +86,26 @@ public class LC0350Intersect {
         return Arrays.copyOfRange(intersection, 0, index);
     }
 
-    public static int[] intersect1(int[] nums1, int[] nums2) {
+    public int[] intersect1(int[] nums1, int[] nums2) {
         if (nums1 == null || nums2 == null) return new int[0];
+        int[] result = new int[nums1.length];
+        int walker = 0;
         List<Integer> list = new ArrayList<>();
+        for(int num:nums2) {
+            list.add(num);
+        }
+
         for (int i = 0; i < nums1.length; i++) {
-            for (int j = 0; j < nums2.length; j++) {
-                if (nums1[i] == nums2[j]) {
-                    list.add(nums1[i]);
-                    nums2[j] = Integer.MAX_VALUE;
+            for (int j = 0; j < list.size(); j++) {
+                if (nums1[i] == list.get(j)) {
+                    result[walker++]=nums1[i];
+                    list.remove(j);
                     break;
                 }
             }
         }
-        int[] result = new int[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i);
-        }
-        return result;
+
+        return Arrays.copyOf(result, walker);
     }
+
 }
