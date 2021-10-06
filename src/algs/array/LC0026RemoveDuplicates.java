@@ -55,7 +55,8 @@
 package algs.array;
 
 import java.util.Arrays;
-
+// 有序数组
+// 原地删除重复元素
 public class LC0026RemoveDuplicates {
     private static final int[] arr = new int[]{0,0,1,1,1,2,2,3,3,4};
     public static void main(String[] args) {
@@ -71,7 +72,7 @@ public class LC0026RemoveDuplicates {
         }
         return tail;
     }
-
+    // 和上一个方法本质相同
     public static int removeDuplicates1(int[] nums) {
         int n = nums.length;
         if (n == 0) {
