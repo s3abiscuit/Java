@@ -18,12 +18,24 @@ public class LC0283MoveZeroes {
     public static void main(String[] args) {
 
     }
+
+    public void moveZeroes(int[] nums) {
+        int tail = 0;
+        for(int i=0; i<nums.length; i++){
+            if (nums[i] != 0) nums[tail++] = nums[i];
+        }
+        for(int i=tail; i<nums.length;i++) {
+            nums[i]=0;
+        }
+    }
+
     // 冒泡排序的思想
-    public static void moveZeroes(int[] nums) {
+    public void moveZeroes1(int[] nums) {
         int size = nums.length;
         for(int i = size-2; i>=0; i--) {
             if (nums[i] != 0) continue;
             for (int j = i; j< size-1; j++){
+                if(nums[j+1]==0) break;
                 int tmp = nums[j];
                 nums[j] = nums[j+1];
                 nums[j+1] = tmp;
