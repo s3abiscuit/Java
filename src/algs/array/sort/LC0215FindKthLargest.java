@@ -26,7 +26,7 @@
 // -10⁴ <= nums[i] <= 10⁴
 //
 // Related Topics 数组 分治 快速选择 排序 堆（优先队列） 👍 1277 👎 0
-package algs.sort;
+package algs.array.sort;
 
 public class LC0215FindKthLargest {
     public static void main(String[] args) {

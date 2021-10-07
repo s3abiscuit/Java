@@ -12,7 +12,7 @@
 // 尽量减少操作次数。
 //
 // Related Topics 数组 双指针 👍 1253 👎 0
-package algs.sort;
+package algs.array.sort;
 
 public class LC0283MoveZeroes {
     public static void main(String[] args) {
