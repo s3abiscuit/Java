@@ -8,12 +8,26 @@ public class Merge {
         mergeSortRecursion(t1);
         System.out.println(Arrays.toString(t1));
 
-        int[] t2 = {4, 5, 6};
-        mergeSortIteration(t2);
+        int[] t2 = {6, 5, 4, 3, 2, 1};
+        mergeIteration1(t2);
         System.out.println(Arrays.toString(t2));
+
+        int[] t3 = {6, 5, 4, 3, 2, 1};
+        mergeIteration2(t3);
+        System.out.println(Arrays.toString(t3));
     }
 
-    public static void mergeSortIteration(int[] arr) {
+    public static void mergeIteration1(int[] arr) {
+        int n = arr.length;
+        int[] aux = new int[n];
+        for (int sz = 1; sz < n; sz = sz * 2) {
+            for (int lo = 0; lo + sz - 1 <= n - 1; lo = lo + 2 * sz) {
+                merge(arr, aux, lo, lo + sz - 1, Math.min(lo + 2 * sz - 1, n - 1));
+            }
+        }
+    }
+
+    public static void mergeIteration2(int[] arr) {
         int[] aux = new int[arr.length];
         //使用非递归的方式来实现归并排序
         int len = arr.length;
