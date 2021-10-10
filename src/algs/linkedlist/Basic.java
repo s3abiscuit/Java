@@ -2,27 +2,23 @@ package algs.linkedlist;
 
 import java.util.LinkedList;
 
+// 链表的操作
+// 1. 递归 recursion
+// 2. 循环 iteration
+// 3. 双指针
+
 public class Basic {
 
     public static void main(String[] args) {
+        // 循环和递归实现遍历
         traverse(createNode());
-        remove(createNode(), 3);
-        reverseList(createNode());
+        // 循环实现翻转
+        traverse1(reverseIteration(createNode()));
+        // 递归实现翻转
+        traverse1(reverseRecursion(createNode()));
+        // 双指针操作
         System.out.println(endOfFirstHalf(createNode()).val);
         System.out.println(hasCycle(createNode()));
-    }
-
-    private static void remove(ListNode listNode, int value) {
-        traverse1(listNode);
-        ListNode tmp = listNode, pre = new ListNode(-1, listNode);
-        while (tmp != null) {
-            if (tmp.val == value) {
-                pre.next = tmp.next;
-            }
-            pre = tmp;
-            tmp = tmp.next;
-        }
-        traverse1(listNode);
     }
 
     private static void traverse(ListNode l1) {
@@ -69,7 +65,7 @@ public class Basic {
         System.out.println(head.val);
     }
 
-    private static ListNode reverseList(ListNode head) {
+    private static ListNode reverseIteration(ListNode head) {
         ListNode prev = null;
         ListNode curr = head;
         while (curr != null) {
@@ -79,6 +75,14 @@ public class Basic {
             curr = nextTemp;
         }
         return prev;
+    }
+
+    private static ListNode reverseRecursion(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode tmp = reverseRecursion(head.next);
+        head.next.next = head;
+        head.next = null;
+        return tmp;
     }
 
     private static ListNode endOfFirstHalf(ListNode head) {
