@@ -43,7 +43,7 @@
 // insert、search 和 startsWith 调用次数 总计 不超过 3 * 10⁴ 次
 //
 // Related Topics 设计 字典树 哈希表 字符串 👍 888 👎 0
-package algs.tree;
+package algs.linkedlist.tree;
 
 // https://blog.csdn.net/m0_46202073/article/details/107253959
 public class LC0208Trie {

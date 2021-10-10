@@ -1,4 +1,4 @@
-package algs.tree;
+package algs.linkedlist.tree;
 
 public class Basic {
     public static void main(String[] args) {

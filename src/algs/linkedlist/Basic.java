@@ -5,7 +5,8 @@ import java.util.LinkedList;
 // 链表的操作
 // 1. 递归 recursion
 // 2. 循环 iteration
-// 3. 双指针
+// 3. 双指针: 环, 环的入口, 中间节点
+// 4. 技巧操作: 两个链表的第一个公共节点
 
 public class Basic {
 

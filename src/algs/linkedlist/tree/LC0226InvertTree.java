@@ -26,7 +26,7 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-package algs.tree;
+package algs.linkedlist.tree;
 
 public class LC0226InvertTree {
     public static void main(String[] args) {

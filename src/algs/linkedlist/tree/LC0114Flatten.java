@@ -1,4 +1,4 @@
-package algs.tree;
+package algs.linkedlist.tree;
 
 import java.util.ArrayList;
 import java.util.List;

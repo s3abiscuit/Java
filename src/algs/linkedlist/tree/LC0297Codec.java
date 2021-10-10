@@ -49,7 +49,7 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-package algs.tree;
+package algs.linkedlist.tree;
 
 import java.util.LinkedList;
 import java.util.Queue;
