@@ -34,7 +34,7 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-package algs.linkedlist.tree;
+package algs.linkedlist.tree.preorder;
 
 /**
  * Definition for a binary tree node.

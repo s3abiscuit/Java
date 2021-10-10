@@ -68,7 +68,7 @@ class Node {
     }
 };
 */
-package algs.linkedlist.tree;
+package algs.linkedlist.tree.preorder;
 // https://labuladong.github.io/algo/1/13/
 public class LC0116Connect {
     public static void main(String[] args) {
