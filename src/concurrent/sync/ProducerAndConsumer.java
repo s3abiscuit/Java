@@ -1,4 +1,4 @@
-package concurrent;
+package concurrent.sync;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerAndConsumer {
     public static void main(String[] args) {
-         Factory factory = new Factory();  // use wait notify
+        Factory factory = new Factory();  // use wait notify
 //        Factory1 factory = new Factory1();   // use lock condition
         new Thread(new Runnable() {
             @Override

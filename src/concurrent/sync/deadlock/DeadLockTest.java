@@ -1,4 +1,4 @@
-package concurrent.deadlock;
+package concurrent.sync.deadlock;
 
 public class DeadLockTest {
     public static void main(String[] args) {
