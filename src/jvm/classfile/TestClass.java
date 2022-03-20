@@ -1,3 +1,5 @@
+package classfile;
+
 public class TestClass {
     private int m;
 
